@@ -1,0 +1,11 @@
+RewriteEngine On
+
+# URL propre pour les vitrines d'école : /ecole/mon-institut → ecole.php?slug=mon-institut
+RewriteRule ^ecole/([a-zA-Z0-9-]+)/?$ ecole.php?slug=$1 [L,QSA]
+
+# Sécurité : interdit l'accès direct aux dossiers sensibles
+<IfModule mod_headers.c>
+  Header set X-Content-Type-Options "nosniff"
+</IfModule>
+
+Options -Indexes
