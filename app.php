@@ -52,6 +52,10 @@ switch($route) {
         include 'pages/register.php';
         break;
 
+    case 'verify-email':
+        include 'processing/req_verify_email.php';
+        include 'pages/verify-email.php';
+
 
     case 'login':
         include ('processing/req_login.php');

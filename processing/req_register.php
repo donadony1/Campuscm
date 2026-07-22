@@ -2,7 +2,7 @@
 require_once 'includes/mailer.php';
 
 if (is_logged_in()) {
-    redirect(current_user()['role'] === 'super_admin' ? 'superadmin/dashboard.php' : 'admin/dashboard.php');
+    redirect(current_user()['role'] === 'super_admin' ? 'superadmin/dashboard.php' : 'admin/dashboard');
 }
 
 $errors = [];
@@ -61,7 +61,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $upsert->execute([$email, $code, $payload, $expiration]);
 
         if (send_verification_email($email, $nomAdmin, $code)) {
-            redirect('verify-email.php?email=' . urlencode($email));
+            redirect('verify-email?email=' . urlencode($email));
         } else {
             $errors[] = "Impossible d'envoyer l'email de vérification. Vérifiez la configuration MAIL_DRIVER dans includes/config.php, ou réessayez.";
         }
