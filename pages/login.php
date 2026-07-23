@@ -32,7 +32,7 @@ require_once 'includes/header.php';
             Pas encore de compte ? <a href="register.php">Inscrire mon école</a>
           </p>
           <div class="alert alert-secondary small mt-3 mb-0">
-            <strong>Démo super-admin :</strong> admin@campuscm.cm / admin123
+            <?php /* <strong>Démo super-admin :</strong> admin@campuscm.cm / admin123 */ ?>
           </div>
         </div>
       </div>
