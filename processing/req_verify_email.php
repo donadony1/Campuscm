@@ -1,12 +1,12 @@
 <?php
 require_once  'includes/mailer.php';
 if (is_logged_in()) {
-    redirect(current_user()['role'] === 'super_admin' ? 'superadmin/dashboard.php' : 'admin/dashboard.php');
+    redirect(current_user()['role'] === 'super_admin' ? 'superadmin/dashboard.php' : 'admin/dashboard');
 }
 
 $email = trim($_GET['email'] ?? $_POST['email'] ?? '');
 if ($email === '') {
-    redirect('register.php');
+    redirect('register');
 }
 
 $pdo = getPDO();
@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['renvoyer'])) {
     $pending = $stmt->fetch();
 
     if (!$pending) {
-        redirect('register.php');
+        redirect('register');
     }
 
     $secondesEcoulees = time() - strtotime($pending['date_creation']);
@@ -55,7 +55,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['verifier'])) {
     $pending = $stmt->fetch();
 
     if (!$pending) {
-        redirect('register.php');
+        redirect('register');
     }
 
     if (strtotime($pending['date_expiration']) < time()) {
@@ -98,7 +98,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['verifier'])) {
             $_SESSION['user'] = $user;
 
             set_flash('success', 'Email vérifié ! Votre école a été enregistrée et sera visible après validation par notre équipe.');
-            redirect('admin/dashboard.php');
+            redirect('admin/dashboard');
         }
     }
 }
