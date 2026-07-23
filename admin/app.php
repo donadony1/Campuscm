@@ -9,9 +9,7 @@ if (isset($_GET['url'])) {
 // On inclut les fichiers de configuration et fonctions
 require_once  '../includes/config.php';
 require_once '../includes/functions.php';
-require_once '../includes/functions.php';
 require_once '../includes/auth.php';
-$flash = get_flash();
 
 $pdo = getPDO();
 
@@ -25,6 +23,7 @@ switch($route) {
         break;  
 
     case 'edit-profil':
+        
         include 'processing/pro_edt.php';
         include 'pages/edit-profil.php';
         break;

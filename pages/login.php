@@ -31,9 +31,11 @@ require_once 'includes/header.php';
           <p class="text-center mt-3 mb-0 small text-muted">
             Pas encore de compte ? <a href="register.php">Inscrire mon école</a>
           </p>
+          <?php /* 
           <div class="alert alert-secondary small mt-3 mb-0">
-            <?php /* <strong>Démo super-admin :</strong> admin@campuscm.cm / admin123 */ ?>
+            <strong>Démo super-admin :</strong> admin@campuscm.cm / admin123 
           </div>
+            */ ?>
         </div>
       </div>
     </div>

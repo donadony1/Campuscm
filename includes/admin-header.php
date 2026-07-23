@@ -8,7 +8,9 @@ if (current_user()['role'] !== 'admin_ecole') {
     http_response_code(403);
     die('Accès réservé aux administrateurs d\'école.');
 }
+
 $flash = get_flash();
+
 // $currentPage = basename($_SERVER['PHP_SELF']);
 $currentPage = $route;
 

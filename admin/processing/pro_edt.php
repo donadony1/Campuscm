@@ -6,8 +6,11 @@ $stmt = $pdo->prepare('SELECT * FROM ecoles WHERE id = ?');
 $stmt->execute([$ecoleId]);
 $ecole = $stmt->fetch();
 
+
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     csrf_verify();
+
+
 
     $nom = trim($_POST['nom'] ?? '');
     $domaine = trim($_POST['domaine'] ?? '');
@@ -39,6 +42,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $upd = $pdo->prepare("UPDATE ecoles SET nom=?, slug=?, domaine=?, description=?, ville=?, adresse=?, telephone=?, email=?, site_web=?, logo=?, cover_image=? WHERE id=?");
     $upd->execute([$nom, $slug, $domaine, $description, $ville, $adresse, $telephone, $email, $siteWeb, $logo, $cover, $ecoleId]);
 
+   
     set_flash('success', 'Profil mis à jour avec succès.');
+
+
     redirect('edit-profil');
+
+    
 }

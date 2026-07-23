@@ -67,7 +67,7 @@ $ecoles = $stmt->fetchAll();
               </td>
               <td><?= (int)$e['vues'] ?></td>
               <td class="text-end">
-                <a href="../ecole.php?slug=<?= e($e['slug']) ?>" target="_blank" class="btn btn-sm btn-outline-secondary" title="Voir"><i class="bi bi-eye"></i></a>
+                <a href="../ecole?slug=<?= e($e['slug']) ?>" target="_blank" class="btn btn-sm btn-outline-secondary" title="Voir"><i class="bi bi-eye"></i></a>
 
                 <?php if ($e['statut'] !== 'valide'): ?>
                   <form method="post" class="d-inline">
