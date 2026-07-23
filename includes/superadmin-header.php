@@ -20,6 +20,9 @@ $currentPage = basename($_SERVER['PHP_SELF']);
 
 <nav class="navbar navbar-dark bg-dark shadow-sm">
   <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Ouvrir le menu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
     <span class="navbar-brand fw-bold"><i class="bi bi-shield-lock-fill"></i> <?= APP_NAME ?> — Back-office</span>
     <div class="d-flex align-items-center gap-3">
       <span class="text-white small d-none d-sm-inline"><?= e(current_user()['nom']) ?></span>
@@ -30,7 +33,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
 
 <div class="container-fluid">
   <div class="row">
-    <nav class="col-md-3 col-lg-2 d-md-block bg-white border-end sidebar py-4" style="min-height: calc(100vh - 56px);">
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-white border-end sidebar collapse py-4">
       <ul class="nav flex-column gap-1">
         <li class="nav-item">
           <a class="nav-link <?= $currentPage === 'dashboard.php' ? 'active fw-semibold' : 'text-dark' ?>" href="dashboard.php">
@@ -50,7 +53,7 @@ $currentPage = basename($_SERVER['PHP_SELF']);
       </ul>
     </nav>
 
-    <main class="col-md-9 col-lg-10 py-4">
+    <main class="col-md-9 col-lg-10 ms-sm-auto py-4">
       <?php if ($flash): ?>
         <div class="alert alert-<?= $flash['type'] === 'error' ? 'danger' : 'success' ?> alert-dismissible fade show" role="alert">
           <?= e($flash['message']) ?>

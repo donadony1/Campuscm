@@ -2,23 +2,21 @@
 // require_once __DIR__ . '/config.php';
 // require_once __DIR__ . '/functions.php';
 // require_once __DIR__ . '/auth.php';
-// require_login();
 
+require_login();
 if (current_user()['role'] !== 'admin_ecole') {
     http_response_code(403);
     die('Accès réservé aux administrateurs d\'école.');
 }
 $flash = get_flash();
-$currentPage = $route ;
 // $currentPage = basename($_SERVER['PHP_SELF']);
+$currentPage = $route;
 
 $__stmt = getPDO()->prepare('SELECT slug, premium_jusqu_au FROM ecoles WHERE id = ?');
 $__stmt->execute([current_user()['ecole_id']]);
 $__ecoleRow = $__stmt->fetch();
 $__ecoleSlug = $__ecoleRow['slug'] ?? '';
 $__premiumBadge = is_premium_active($__ecoleRow['premium_jusqu_au'] ?? null);
-
-
 ?>
 <!DOCTYPE html>
 <html lang="fr">
@@ -34,6 +32,9 @@ $__premiumBadge = is_premium_active($__ecoleRow['premium_jusqu_au'] ?? null);
 
 <nav class="navbar navbar-dark bg-primary shadow-sm">
   <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Ouvrir le menu">
+      <span class="navbar-toggler-icon"></span>
+    </button>
     <span class="navbar-brand fw-bold"><i class="bi bi-mortarboard-fill"></i> <?= APP_NAME ?> — Espace école</span>
     <div class="d-flex align-items-center gap-3">
       <span class="text-white small d-none d-sm-inline"><?= e(current_user()['nom']) ?></span>
@@ -44,7 +45,7 @@ $__premiumBadge = is_premium_active($__ecoleRow['premium_jusqu_au'] ?? null);
 
 <div class="container-fluid">
   <div class="row">
-    <nav class="col-md-3 col-lg-2 d-md-block bg-white border-end sidebar py-4" style="min-height: calc(100vh - 56px);">
+    <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-white border-end sidebar collapse py-4">
       <ul class="nav flex-column gap-1">
         <li class="nav-item">
           <a class="nav-link <?= $currentPage === 'dashboard' ? 'active fw-semibold' : 'text-dark' ?>" href="dashboard">
@@ -79,8 +80,8 @@ $__premiumBadge = is_premium_active($__ecoleRow['premium_jusqu_au'] ?? null);
       </ul>
     </nav>
 
-    <main class="col-md-9 col-lg-10 py-4">
-      <?php if ($flash):?>
+    <main class="col-md-9 col-lg-10 ms-sm-auto py-4">
+      <?php if ($flash): ?>
         <div class="alert alert-<?= $flash['type'] === 'error' ? 'danger' : 'success' ?> alert-dismissible fade show" role="alert">
           <?= e($flash['message']) ?>
           <button type="button" class="btn-close" data-bs-dismiss="alert"></button>

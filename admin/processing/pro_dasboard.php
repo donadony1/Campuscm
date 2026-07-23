@@ -1,5 +1,4 @@
 <?php
-
 $ecoleId = current_user()['ecole_id'];
 
 $stmt = $pdo->prepare('SELECT * FROM ecoles WHERE id = ?');
