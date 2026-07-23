@@ -9,7 +9,7 @@ $ecole = $stmt->fetch();
 if (!$ecole) {
     http_response_code(404);
     echo '<div class="container py-5 text-center"><h1 class="fw-bold">École introuvable</h1><p class="text-muted">Cette vitrine n\'existe pas ou n\'est pas encore validée.</p><a href="recherche.php" class="btn btn-primary">Retour à la recherche</a></div>';
-    require_once __DIR__ . '/includes/footer.php';
+    require_once 'includes/footer.php';
     exit;
 }
 
