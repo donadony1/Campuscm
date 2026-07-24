@@ -1,7 +1,6 @@
 <?php
 $pageTitle = 'Abonnement';
 require_once '../includes/admin-header.php';
-require_once '../includes/notchpay.php';
 
 ?>
 
