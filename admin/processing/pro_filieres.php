@@ -23,7 +23,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $owner = $check->fetch();
         if (!$owner || (int)$owner['ecole_id'] !== (int)$ecoleId) {
             set_flash('error', 'Action non autorisée.');
-            redirect('filieres.php');
+            redirect('filieres');
         }
         $upd = $pdo->prepare('UPDATE filieres SET nom=?, niveau=?, duree=?, prix=?, description=? WHERE id=?');
         $upd->execute([$nom, $niveau, $duree, $prix, $description, $filiereId]);

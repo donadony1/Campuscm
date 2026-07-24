@@ -46,7 +46,9 @@ require_once  'includes/header.php';
           <?php if (empty($filieres)): ?>
             <p class="text-muted">Aucune filière renseignée pour le moment.</p>
           <?php else: ?>
-            <div class="table-responsive">
+
+            <!-- Version bureau : tableau classique (masqué en dessous de md) -->
+            <div class="table-responsive d-none d-md-block">
               <table class="table table-hover align-middle">
                 <thead><tr><th>Filière</th><th>Niveau</th><th>Durée</th><th>Prix</th></tr></thead>
                 <tbody>
@@ -61,6 +63,30 @@ require_once  'includes/header.php';
                 </tbody>
               </table>
             </div>
+
+            <!-- Version mobile : cartes empilées, plus lisibles qu'un tableau étroit (visible en dessous de md) -->
+            <div class="d-md-none">
+              <?php foreach ($filieres as $f): ?>
+                <div class="border rounded p-3 mb-2 filiere-card-mobile">
+                  <div class="fw-semibold mb-1"><?= e($f['nom']) ?></div>
+                  <?php if ($f['description']): ?>
+                    <div class="text-muted small mb-2"><?= e($f['description']) ?></div>
+                  <?php endif; ?>
+                  <div class="d-flex flex-wrap gap-3 small">
+                    <?php if ($f['niveau']): ?>
+                      <span><i class="bi bi-mortarboard text-primary"></i> <?= e($f['niveau']) ?></span>
+                    <?php endif; ?>
+                    <?php if ($f['duree']): ?>
+                      <span><i class="bi bi-clock text-primary"></i> <?= e($f['duree']) ?></span>
+                    <?php endif; ?>
+                    <?php if ($f['prix']): ?>
+                      <span><i class="bi bi-cash-coin text-primary"></i> <?= e($f['prix']) ?></span>
+                    <?php endif; ?>
+                  </div>
+                </div>
+              <?php endforeach; ?>
+            </div>
+
           <?php endif; ?>
         </div>
       </div>
