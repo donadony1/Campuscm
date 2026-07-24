@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     if ($nom === '') {
         set_flash('error', 'Le nom de la filière est requis.');
-        redirect('filieres.php');
+        redirect('filieres');
     }
 
     if ($filiereId > 0) {
@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $ins->execute([$ecoleId, $nom, $niveau, $duree, $prix, $description]);
         set_flash('success', 'Filière ajoutée.');
     }
-    redirect('filieres.php');
+    redirect('filieres');
 }
 
 // Suppression
@@ -42,7 +42,7 @@ if (isset($_GET['delete'])) {
     $del = $pdo->prepare('DELETE FROM filieres WHERE id = ? AND ecole_id = ?');
     $del->execute([$id, $ecoleId]);
     set_flash('success', 'Filière supprimée.');
-    redirect('filieres.php');
+    redirect('filieres');
 }
 
 $stmt = $pdo->prepare('SELECT * FROM filieres WHERE ecole_id = ? ORDER BY nom');
