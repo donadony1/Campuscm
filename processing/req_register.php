@@ -1,5 +1,4 @@
 <?php
-require_once 'includes/mailer.php';
 
 if (is_logged_in()) {
     redirect(current_user()['role'] === 'super_admin' ? 'superadmin/dashboard.php' : 'admin/dashboard');
