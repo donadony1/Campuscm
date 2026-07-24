@@ -118,7 +118,6 @@ function install_sqlite_schema(PDO $pdo): void
         FOREIGN KEY (ecole_id) REFERENCES ecoles(id) ON DELETE CASCADE
     )");
 
-    // ajouter la table verifications_email pour gérer les codes de vérification d'email
     $pdo->exec("CREATE TABLE IF NOT EXISTS verifications_email (
         id INTEGER PRIMARY KEY AUTOINCREMENT,
         email TEXT NOT NULL UNIQUE,
@@ -126,6 +125,15 @@ function install_sqlite_schema(PDO $pdo): void
         payload TEXT NOT NULL,
         tentatives INTEGER NOT NULL DEFAULT 0,
         date_creation TEXT NOT NULL DEFAULT (datetime('now')),
+        date_expiration TEXT NOT NULL
+    )");
+
+    $pdo->exec("CREATE TABLE IF NOT EXISTS reinitialisations_mdp (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        email TEXT NOT NULL UNIQUE,
+        code TEXT NOT NULL,
+        tentatives INTEGER NOT NULL DEFAULT 0,
+        date_creation TEXT NOT NULL,
         date_expiration TEXT NOT NULL
     )");
 

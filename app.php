@@ -31,7 +31,7 @@ switch($route) {
         // On inclut la page d'accueil
         include 'pages/index.php';
 
-    break;
+        break;
 
     case 'recherche':
         // On inclut le fichier de traitement de la recherche
@@ -61,6 +61,16 @@ switch($route) {
         include ('processing/req_login.php');
         include ('pages/login.php');
         break;
+    
+    case 'mot-de-passe-oublie':
+        include ('processing/req_mot-de-passe-oublie.php');
+        include ('pages/mot-de-passe-oublie.php');
+        break;
+
+    case 'reinitialiser-mot-de-passe':
+        include ('processing/req_reinitialiser-mot-de-passe.php');
+        include ('pages/reinitialiser-mot-de-passe.php');
+        break;
 
     case 'logout':
         include ('processing/req_logout.php');
@@ -68,6 +78,6 @@ switch($route) {
         break;
     default:
         // Page not found
-     
+      echo "cette page n'est pas bonne ";
         break;
 }

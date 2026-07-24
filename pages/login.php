@@ -24,6 +24,9 @@ require_once 'includes/header.php';
             <div class="mb-3">
               <label class="form-label">Mot de passe</label>
               <input type="password" name="password" class="form-control" required>
+              <div class="text-end mt-1">
+                <a href="mot-de-passe-oublie" class="small">Mot de passe oublié ?</a>
+              </div>
             </div>
             <button type="submit" class="btn btn-primary w-100">Se connecter</button>
           </form>
@@ -31,11 +34,10 @@ require_once 'includes/header.php';
           <p class="text-center mt-3 mb-0 small text-muted">
             Pas encore de compte ? <a href="register.php">Inscrire mon école</a>
           </p>
-          <?php /* 
+          <?php /*
           <div class="alert alert-secondary small mt-3 mb-0">
-            <strong>Démo super-admin :</strong> admin@campuscm.cm / admin123 
-          </div>
-            */ ?>
+            <strong>Démo super-admin :</strong> admin@campuscm.cm / admin123
+          </div> */?>
         </div>
       </div>
     </div>

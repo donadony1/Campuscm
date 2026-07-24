@@ -86,6 +86,49 @@ database/schema_mysql.sql                  → schéma à importer en production
 data/                                      → fichier SQLite (mode démo, protégé)
 ```
 
+
+## Mot de passe oublié
+
+Un lien "Mot de passe oublié ?" sur la page de connexion permet de
+réinitialiser son mot de passe via un code à 6 chiffres envoyé par email
+(`mot-de-passe-oublie.php` → `reinitialiser-mot-de-passe.php`).
+
+- **Protection anti-énumération** : le même message générique s'affiche que
+  l'email existe ou non en base — seul un compte existant reçoit réellement
+  un email. Testé et confirmé (email inexistant → même message, aucun envoi).
+- Mêmes garanties que la vérification d'inscription : code valable 15
+  minutes, 5 tentatives max, cooldown 60 secondes pour le renvoi.
+- Testé de bout en bout : ancien mot de passe rejeté après réinitialisation,
+  nouveau mot de passe fonctionnel immédiatement.
+
+## Vérification d'email à l'inscription
+
+Avant qu'un compte école ne soit réellement créé, un code à 6 chiffres est
+envoyé par email et doit être saisi sur `verify-email.php`. Le compte
+(école + utilisateur) n'existe en base qu'**après** validation du code — tant
+que ce n'est pas fait, seule une ligne temporaire existe dans
+`verifications_email`.
+
+- Code valable **15 minutes**, renvoi possible après un délai de **60 secondes**.
+- **5 tentatives maximum** avant blocage (redemander un nouveau code).
+- Envoi par `mail()` natif par défaut, ou client **SMTP** intégré (sans
+  Composer) en réglant `MAIL_DRIVER` sur `'smtp'` dans `includes/config.php`
+  — recommandé en production car `mail()` est souvent filtré en spam.
+- Testé de bout en bout (inscription → email reçu → mauvais code rejeté →
+  bon code accepté → compte créé et connecté automatiquement) avec un
+  serveur SMTP de test local.
+
+### Configuration SMTP recommandée en production
+
+```php
+define('MAIL_DRIVER', 'smtp');
+define('SMTP_HOST', 'smtp.votrehebergeur.cm'); // ou smtp.gmail.com, smtp-relay.brevo.com...
+define('SMTP_PORT', 587);
+define('SMTP_USER', 'no-reply@campuscm.cm');
+define('SMTP_PASS', 'votre_mot_de_passe_smtp');
+define('SMTP_SECURE', 'tls');
+```
+
 ## Paiement Mobile Money (Notch Pay) — Plan Vitrine Premium
 
 Un plan payant "Vitrine Premium" (badge Vérifié + mise en avant, 5 000 FCFA/mois

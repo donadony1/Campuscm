@@ -43,7 +43,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['payer'])) {
     } else {
         $pdo->prepare("UPDATE paiements SET statut = 'echoue', date_maj = datetime('now') WHERE reference = ?")->execute([$reference]);
         set_flash('error', "Impossible d'initier le paiement : " . ($result['message'] ?? 'erreur inconnue') . '. Vérifiez vos clés Notch Pay dans includes/config.php.');
-        redirect('abonnement.php');
+        redirect('abonnement');
     }
 }
 

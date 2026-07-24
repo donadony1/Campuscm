@@ -45,7 +45,7 @@ define('ALLOWED_IMAGE_TYPES', ['image/jpeg', 'image/png', 'image/webp']);
 // Clés à récupérer sur https://business.notchpay.co (Développeurs > Clés API)
 // Utilisez les clés "sandbox" (sb.xxx) pour tester, puis les clés "live" (b.xxx) en prod.
 define('NOTCHPAY_PUBLIC_KEY', 'sb.votre_cle_publique_sandbox');
-define('NOTCHPAY_WEBHOOK_HASH', 'votre_hash_webhook'); // "Hash Key" du webhook, pour vérifier les signatures // "Hash Key" du webhook, pour vérifier les signatures
+define('NOTCHPAY_WEBHOOK_HASH', 'votre_hash_webhook'); // "Hash Key" du webhook, pour vérifier les signatures
 define('NOTCHPAY_API_BASE', 'https://api.notchpay.co');
 
 // Tarifs de la plateforme (en FCFA / XAF)
@@ -67,6 +67,9 @@ define('SMTP_SECURE', 'tls'); // 'tls' ou 'ssl'
 
 define('VERIFICATION_CODE_DUREE_MINUTES', 15);
 define('VERIFICATION_RESEND_COOLDOWN_SECONDES', 60);
+
+define('PASSWORD_RESET_DUREE_MINUTES', 15);
+define('PASSWORD_RESET_COOLDOWN_SECONDES', 60);
 
 // Affichage des erreurs (à mettre à false en production)
 define('DEBUG_MODE', true);

@@ -134,3 +134,20 @@ function send_verification_email(string $to, string $nomAdmin, string $code): bo
 
     return mail_send($to, $subject, $body);
 }
+
+/** Envoie l'email contenant le code de réinitialisation de mot de passe */
+function send_password_reset_email(string $to, string $nomAdmin, string $code): bool
+{
+    $subject = 'Réinitialisation de votre mot de passe CampusCM';
+    $body = "
+    <div style='font-family: Arial, sans-serif; max-width: 480px; margin: auto;'>
+      <h2 style='color:#0d6efd;'>Réinitialisation de mot de passe</h2>
+      <p>Bonjour " . htmlspecialchars($nomAdmin) . ",</p>
+      <p>Voici votre code pour réinitialiser votre mot de passe CampusCM :</p>
+      <p style='font-size: 28px; font-weight: bold; letter-spacing: 6px; background:#f1f3f5; padding: 12px 20px; border-radius: 8px; text-align:center;'>$code</p>
+      <p>Ce code expire dans " . PASSWORD_RESET_DUREE_MINUTES . " minutes.</p>
+      <p style='color:#888; font-size: 13px;'>Si vous n'êtes pas à l'origine de cette demande, ignorez cet email : votre mot de passe actuel reste valide.</p>
+    </div>";
+
+    return mail_send($to, $subject, $body);
+}
