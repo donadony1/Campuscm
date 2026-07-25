@@ -31,7 +31,7 @@ require_once '../includes/admin-header.php';
                   onclick='editFiliere(<?= json_encode($f, JSON_HEX_APOS | JSON_HEX_QUOT) ?>)'>
                   <i class="bi bi-pencil"></i>
                 </button>
-                <a href="filieres.php?delete=<?= $f['id'] ?>" class="btn btn-sm btn-outline-danger" data-confirm="Supprimer cette filière ?">
+                <a href="filieres?delete=<?= $f['id'] ?>" class="btn btn-sm btn-outline-danger" data-confirm="Supprimer cette filière ?">
                   <i class="bi bi-trash"></i>
                 </a>
               </td>

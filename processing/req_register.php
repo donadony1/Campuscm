@@ -35,6 +35,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         // On ne crée PAS encore le compte : on stocke les infos en attente
         // de vérification, et on envoie un code par email.
         $code = generate_verification_code();
+        $maintenant = date('Y-m-d H:i:s');
         $expiration = date('Y-m-d H:i:s', time() + VERIFICATION_CODE_DUREE_MINUTES * 60);
 
         $payload = json_encode([
@@ -47,17 +48,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         // Un seul enregistrement en attente par email (remplace le précédent
         // si l'utilisateur relance une inscription avant d'avoir validé).
+        // Note : date PHP explicite (pas datetime('now') de SQLite, qui est en
+        // UTC) pour rester cohérent avec le fuseau horaire PHP (Africa/Douala).
         $upsert = $pdo->prepare("
-            INSERT INTO verifications_email (email, code, payload, tentatives, date_expiration)
-            VALUES (?, ?, ?, 0, ?)
+            INSERT INTO verifications_email (email, code, payload, tentatives, date_creation, date_expiration)
+            VALUES (?, ?, ?, 0, ?, ?)
             ON CONFLICT(email) DO UPDATE SET
                 code = excluded.code,
                 payload = excluded.payload,
                 tentatives = 0,
-                date_creation = datetime('now'),
+                date_creation = excluded.date_creation,
                 date_expiration = excluded.date_expiration
         ");
-        $upsert->execute([$email, $code, $payload, $expiration]);
+        $upsert->execute([$email, $code, $payload, $maintenant, $expiration]);
 
         if (send_verification_email($email, $nomAdmin, $code)) {
             redirect('verify-email?email=' . urlencode($email));

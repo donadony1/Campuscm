@@ -46,7 +46,7 @@ require_once 'includes/header.php';
   <h2 class="fw-bold mb-4">Écoles à la une</h2>
   <div class="row g-4">
     <?php if (empty($ecoles)): ?>
-      <p class="text-muted">Aucune école n'est encore publiée. <a href="register.php">Soyez la première à inscrire votre établissement</a>.</p>
+      <p class="text-muted">Aucune école n'est encore publiée. <a href="register">Soyez la première à inscrire votre établissement</a>.</p>
     <?php endif; ?>
     <?php foreach ($ecoles as $ecole): ?>
       <div class="col-md-4">

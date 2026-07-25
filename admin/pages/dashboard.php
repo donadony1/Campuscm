@@ -52,15 +52,15 @@ require_once  '../includes/admin-header.php';
     <ul class="list-group list-group-flush">
       <li class="list-group-item d-flex justify-content-between align-items-center">
         Compléter le profil et ajouter un logo / photo de couverture
-        <a href="edit-profil.php" class="btn btn-sm btn-outline-primary">Modifier</a>
+        <a href="edit-profil" class="btn btn-sm btn-outline-primary">Modifier</a>
       </li>
       <li class="list-group-item d-flex justify-content-between align-items-center">
         Ajouter vos filières de formation
-        <a href="filieres.php" class="btn btn-sm btn-outline-primary">Gérer</a>
+        <a href="filieres" class="btn btn-sm btn-outline-primary">Gérer</a>
       </li>
       <li class="list-group-item d-flex justify-content-between align-items-center">
         Ajouter des photos de votre établissement
-        <a href="photos.php" class="btn btn-sm btn-outline-primary">Ajouter</a>
+        <a href="photos" class="btn btn-sm btn-outline-primary">Ajouter</a>
       </li>
     </ul>
   </div>

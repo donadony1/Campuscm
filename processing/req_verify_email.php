@@ -32,10 +32,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['renvoyer'])) {
     } else {
         $payload = json_decode($pending['payload'], true);
         $nouveauCode = generate_verification_code();
+        $maintenant = date('Y-m-d H:i:s');
         $nouvelleExpiration = date('Y-m-d H:i:s', time() + VERIFICATION_CODE_DUREE_MINUTES * 60);
 
-        $pdo->prepare("UPDATE verifications_email SET code = ?, tentatives = 0, date_creation = datetime('now'), date_expiration = ? WHERE email = ?")
-            ->execute([$nouveauCode, $nouvelleExpiration, $email]);
+        $pdo->prepare("UPDATE verifications_email SET code = ?, tentatives = 0, date_creation = ?, date_expiration = ? WHERE email = ?")
+            ->execute([$nouveauCode, $maintenant, $nouvelleExpiration, $email]);
 
         if (send_verification_email($email, $payload['nom_admin'], $nouveauCode)) {
             $success = "Un nouveau code vous a été envoyé.";
@@ -82,8 +83,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['verifier'])) {
             $pdo->prepare('DELETE FROM verifications_email WHERE email = ?')->execute([$email]);
 
             $pdo->commit();
-
-            attempt_login($email, ''); // ne fonctionnera pas car mot de passe déjà hashé : on connecte manuellement
         } catch (Exception $e) {
             $pdo->rollBack();
             $errors[] = "Une erreur est survenue lors de la création du compte. Merci de réessayer.";

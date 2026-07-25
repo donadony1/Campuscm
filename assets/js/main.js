@@ -30,7 +30,7 @@ $(function () {
     const photoId = $(this).data('id');
     const token = $('meta[name="csrf-token"]').attr('content') || $('#csrf_token_val').val();
 
-    $.post('actions.php', { action: 'delete_photo', id: photoId, csrf_token: token }, function (resp) {
+    $.post('actions', { action: 'delete_photo', id: photoId, csrf_token: token }, function (resp) {
       if (resp && resp.success) {
         $card.fadeOut(200, function () { $(this).remove(); });
       } else {

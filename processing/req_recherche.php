@@ -1,4 +1,7 @@
 <?php 
+        // On rétrograde d'abord les écoles dont le premium a expiré (portable MySQL/SQLite)
+        downgrade_expired_premiums($pdo);
+
         $q = trim($_GET['q'] ?? '');
 
         $ville = trim($_GET['ville'] ?? '');

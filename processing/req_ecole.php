@@ -1,5 +1,8 @@
 <?php 
 
+// On rétrograde d'abord les écoles dont le premium a expiré (portable MySQL/SQLite)
+downgrade_expired_premiums($pdo);
+
 $slug = trim($_GET['slug'] ?? '');
 
 $stmt = $pdo->prepare("SELECT * FROM ecoles WHERE slug = ? AND statut = 'valide'");
@@ -8,6 +11,8 @@ $ecole = $stmt->fetch();
 
 if (!$ecole) {
     http_response_code(404);
+    $pageTitle = 'École introuvable';
+    require_once 'includes/header.php';
     echo '<div class="container py-5 text-center"><h1 class="fw-bold">École introuvable</h1><p class="text-muted">Cette vitrine n\'existe pas ou n\'est pas encore validée.</p><a href="recherche" class="btn btn-primary">Retour à la recherche</a></div>';
     require_once 'includes/footer.php';
     exit;

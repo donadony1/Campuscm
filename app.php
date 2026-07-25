@@ -74,7 +74,8 @@ switch($route) {
         break;
 
     case 'logout':
-        include ('processing/req_logout.php');
+        // pages/logout.php gère lui-même la déconnexion et la redirection,
+        // pas besoin d'un fichier de traitement séparé.
         include ('pages/logout.php');
         break;
     default:

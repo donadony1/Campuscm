@@ -1,16 +1,8 @@
 <?php
-require_once __DIR__ . '/../includes/config.php';
-require_once __DIR__ . '/../includes/db.php';
-require_once __DIR__ . '/../includes/auth.php';
-require_once __DIR__ . '/../includes/functions.php';
+// Endpoint AJAX (réponse JSON). L'authentification et le rôle sont déjà
+// vérifiés par admin/app.php avant d'arriver ici.
 
 header('Content-Type: application/json');
-
-if (!is_logged_in() || current_user()['role'] !== 'admin_ecole') {
-    http_response_code(403);
-    echo json_encode(['success' => false, 'message' => 'Non autorisé.']);
-    exit;
-}
 
 $token = $_POST['csrf_token'] ?? '';
 if (!hash_equals($_SESSION['csrf_token'] ?? '', $token)) {
@@ -19,7 +11,6 @@ if (!hash_equals($_SESSION['csrf_token'] ?? '', $token)) {
     exit;
 }
 
-$pdo = getPDO();
 $ecoleId = current_user()['ecole_id'];
 $action = $_POST['action'] ?? '';
 

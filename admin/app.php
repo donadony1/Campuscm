@@ -11,6 +11,15 @@ require_once  '../includes/config.php';
 require_once '../includes/functions.php';
 require_once '../includes/auth.php';
 
+// Authentification vérifiée AVANT tout traitement (évite d'exécuter du code
+// de traitement avec un utilisateur non connecté, qui produirait des
+// warnings PHP en tentant d'accéder à current_user()['ecole_id'] sur null).
+require_login();
+if (current_user()['role'] !== 'admin_ecole') {
+    http_response_code(403);
+    die('Accès réservé aux administrateurs d\'école.');
+}
+
 $pdo = getPDO();
 
 $route = $url[0] ?? '';
@@ -41,6 +50,11 @@ switch($route) {
     case 'abonnement':
         include 'processing/pro_abonnement.php';
         include 'pages/abonnement.php';
+        break;
+
+    case 'actions':
+        // Endpoint AJAX (JSON) - pas de vue associée
+        include 'processing/pro_actions.php';
         break;
     default:
         // Page not found
