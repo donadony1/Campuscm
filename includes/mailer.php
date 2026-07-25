@@ -151,3 +151,68 @@ function send_password_reset_email(string $to, string $nomAdmin, string $code): 
 
     return mail_send($to, $subject, $body);
 }
+
+/**
+ * Notifie tous les super-admins de la plateforme qu'une nouvelle école
+ * vient de s'inscrire et attend une validation. Envoyée juste après la
+ * création réelle du compte (après vérification de l'email par l'école).
+ */
+function notify_superadmins_new_school(PDO $pdo, string $ecoleNom, string $ville, string $domaine, string $adminNom, string $adminEmail): void
+{
+    $stmt = $pdo->query("SELECT email FROM utilisateurs WHERE role = 'super_admin'");
+    $superadmins = $stmt->fetchAll(PDO::FETCH_COLUMN);
+
+    if (empty($superadmins)) {
+        return;
+    }
+
+    $subject = 'Nouvelle école inscrite sur CampusCM : ' . $ecoleNom;
+    $body = "
+    <div style='font-family: Arial, sans-serif; max-width: 480px; margin: auto;'>
+      <h2 style='color:#0d6efd;'>Nouvelle école en attente de validation</h2>
+      <p>Une nouvelle école vient de s'inscrire sur CampusCM et attend votre validation :</p>
+      <table style='width:100%; border-collapse: collapse; margin: 16px 0;'>
+        <tr><td style='padding:6px 0; color:#666;'>École</td><td style='padding:6px 0; font-weight:bold;'>" . htmlspecialchars($ecoleNom) . "</td></tr>
+        <tr><td style='padding:6px 0; color:#666;'>Ville</td><td style='padding:6px 0;'>" . htmlspecialchars($ville ?: 'Non renseignée') . "</td></tr>
+        <tr><td style='padding:6px 0; color:#666;'>Domaine</td><td style='padding:6px 0;'>" . htmlspecialchars($domaine) . "</td></tr>
+        <tr><td style='padding:6px 0; color:#666;'>Responsable</td><td style='padding:6px 0;'>" . htmlspecialchars($adminNom) . "</td></tr>
+        <tr><td style='padding:6px 0; color:#666;'>Email</td><td style='padding:6px 0;'>" . htmlspecialchars($adminEmail) . "</td></tr>
+      </table>
+      <p><a href='" . e(rtrim(APP_URL, '/')) . "/superadmin/ecoles.php?statut=en_attente' style='display:inline-block; background:#0d6efd; color:#fff; padding:10px 20px; border-radius:6px; text-decoration:none;'>Voir et valider</a></p>
+    </div>";
+
+    foreach ($superadmins as $email) {
+        mail_send($email, $subject, $body);
+    }
+}
+
+/**
+ * Notifie le responsable d'une école que sa fiche a été validée ou rejetée
+ * par un super-admin.
+ */
+function send_school_status_email(string $to, string $nomAdmin, string $ecoleNom, string $statut): bool
+{
+    if ($statut === 'valide') {
+        $subject = 'Votre école est maintenant en ligne sur CampusCM';
+        $body = "
+        <div style='font-family: Arial, sans-serif; max-width: 480px; margin: auto;'>
+          <h2 style='color:#198754;'>Bonne nouvelle !</h2>
+          <p>Bonjour " . htmlspecialchars($nomAdmin) . ",</p>
+          <p>La fiche de <strong>" . htmlspecialchars($ecoleNom) . "</strong> a été validée par notre équipe et est désormais visible publiquement sur CampusCM.</p>
+          <p><a href='" . e(rtrim(APP_URL, '/')) . "/admin/dashboard' style='display:inline-block; background:#198754; color:#fff; padding:10px 20px; border-radius:6px; text-decoration:none;'>Voir mon dashboard</a></p>
+        </div>";
+    } elseif ($statut === 'rejete') {
+        $subject = 'Votre fiche CampusCM nécessite des corrections';
+        $body = "
+        <div style='font-family: Arial, sans-serif; max-width: 480px; margin: auto;'>
+          <h2 style='color:#dc3545;'>Votre fiche n'a pas été validée</h2>
+          <p>Bonjour " . htmlspecialchars($nomAdmin) . ",</p>
+          <p>La fiche de <strong>" . htmlspecialchars($ecoleNom) . "</strong> n'a pas été validée par notre équipe. Merci de vérifier que les informations fournies sont complètes et exactes, puis de nous contacter si besoin.</p>
+          <p><a href='" . e(rtrim(APP_URL, '/')) . "/admin/edit-profil' style='display:inline-block; background:#0d6efd; color:#fff; padding:10px 20px; border-radius:6px; text-decoration:none;'>Compléter mon profil</a></p>
+        </div>";
+    } else {
+        return false;
+    }
+
+    return mail_send($to, $subject, $body);
+}

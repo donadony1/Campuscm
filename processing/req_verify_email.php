@@ -83,6 +83,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['verifier'])) {
             $pdo->prepare('DELETE FROM verifications_email WHERE email = ?')->execute([$email]);
 
             $pdo->commit();
+
+            // Notifie les super-admins qu'une nouvelle école attend validation.
+            // Ne doit jamais bloquer l'inscription si l'envoi échoue.
+            notify_superadmins_new_school($pdo, $payload['nom_ecole'], $payload['ville'], $payload['domaine'], $payload['nom_admin'], $email);
         } catch (Exception $e) {
             $pdo->rollBack();
             $errors[] = "Une erreur est survenue lors de la création du compte. Merci de réessayer.";

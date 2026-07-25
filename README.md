@@ -87,6 +87,23 @@ data/                                      → fichier SQLite (mode démo, prot�
 ```
 
 
+## Notifications par email
+
+En plus de la vérification de compte et du mot de passe oublié, la
+plateforme envoie automatiquement :
+
+- **Aux super-admins** : un email dès qu'une nouvelle école termine son
+  inscription (après vérification de son email) et attend une validation,
+  avec un lien direct vers `superadmin/ecoles.php?statut=en_attente`.
+- **Au responsable de l'école** : un email dès que sa fiche est **validée**
+  (avec lien vers son dashboard) ou **rejetée** (avec lien pour compléter
+  son profil) par un super-admin.
+
+Ces envois ne bloquent jamais l'action principale (inscription ou
+changement de statut) si l'email échoue à partir — ils sont best-effort.
+Testés de bout en bout (inscription → notification super-admin reçue,
+validation → email reçu par l'école, rejet → email reçu par l'école).
+
 ## Mot de passe oublié
 
 Un lien "Mot de passe oublié ?" sur la page de connexion permet de

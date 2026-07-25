@@ -1,6 +1,7 @@
 <?php
 $pageTitle = 'Gestion des écoles';
 require_once __DIR__ . '/../includes/superadmin-header.php';
+require_once __DIR__ . '/../includes/mailer.php';
 
 $pdo = getPDO();
 
@@ -12,6 +13,22 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['action_statut'])) {
     if (in_array($nouveauStatut, ['valide', 'rejete', 'en_attente'], true)) {
         $pdo->prepare('UPDATE ecoles SET statut = ? WHERE id = ?')->execute([$nouveauStatut, $id]);
         set_flash('success', 'Statut mis à jour.');
+
+        // Notifie le responsable de l'école en cas de validation ou de rejet
+        // (pas de notification pour un retour à "en_attente").
+        if (in_array($nouveauStatut, ['valide', 'rejete'], true)) {
+            $stmt = $pdo->prepare("
+                SELECT e.nom AS ecole_nom, u.nom AS admin_nom, u.email AS admin_email
+                FROM ecoles e
+                JOIN utilisateurs u ON u.ecole_id = e.id AND u.role = 'admin_ecole'
+                WHERE e.id = ?
+            ");
+            $stmt->execute([$id]);
+            $info = $stmt->fetch();
+            if ($info) {
+                send_school_status_email($info['admin_email'], $info['admin_nom'], $info['ecole_nom'], $nouveauStatut);
+            }
+        }
     }
     redirect('ecoles.php' . (isset($_GET['statut']) ? '?statut=' . urlencode($_GET['statut']) : ''));
 }
