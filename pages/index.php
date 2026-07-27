@@ -75,8 +75,39 @@ require_once 'includes/header.php';
     <?php endforeach; ?>
   </div>
 
-  <div class="text-center mt-5">
+  <div class="text-center mt-5 mb-5">
     <a href="recherche" class="btn btn-primary btn-lg">Voir toutes les écoles <i class="bi bi-arrow-right"></i></a>
+  </div>
+
+  <!-- Formations à la une (priorité aux écoles premium) -->
+  <div class="d-flex justify-content-between align-items-center mb-4">
+    <h2 class="fw-bold mb-0">Formations à la une</h2>
+    <a href="formations" class="btn btn-outline-primary btn-sm">Voir toutes les formations <i class="bi bi-arrow-right"></i></a>
+  </div>
+  <div class="row g-4">
+    <?php if (empty($formationsAlaUne)): ?>
+      <p class="text-muted">Aucune formation publiée pour le moment.</p>
+    <?php endif; ?>
+    <?php foreach ($formationsAlaUne as $f): ?>
+      <div class="col-md-3 col-6">
+        <div class="card h-100 shadow-sm school-card <?= $f['ecole_plan'] === 'premium' ? 'formation-premium' : '' ?>">
+          <a href="formation?id=<?= $f['id'] ?>">
+            <img src="<?= $f['image'] ? UPLOAD_URL_FORMATIONS . e($f['image']) : 'https://placehold.co/300x160?text=' . urlencode($f['nom']) ?>"
+                 class="card-img-top" style="height:120px;object-fit:cover;" alt="<?= e($f['nom']) ?>">
+          </a>
+          <div class="card-body p-3">
+            <?php if ($f['ecole_plan'] === 'premium'): ?>
+              <span class="badge bg-warning text-dark mb-1 small"><i class="bi bi-patch-check-fill"></i> Vérifiée</span>
+            <?php endif; ?>
+            <h6 class="card-title fw-bold mb-1 small"><?= e($f['nom']) ?></h6>
+            <p class="text-muted small mb-0"><i class="bi bi-building"></i> <?= e($f['ecole_nom']) ?></p>
+          </div>
+          <div class="card-footer bg-white border-0 p-2">
+            <a href="formation?id=<?= $f['id'] ?>" class="btn btn-outline-primary btn-sm w-100">Voir</a>
+          </div>
+        </div>
+      </div>
+    <?php endforeach; ?>
   </div>
 
   <div class="card bg-primary text-white mt-5 border-0">

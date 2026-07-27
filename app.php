@@ -29,9 +29,31 @@ switch($route) {
         $totalEcoles = $pdo->query("SELECT COUNT(*) AS n FROM ecoles WHERE statut = 'valide'")->fetch()['n'];
         $villesStmt = $pdo->query("SELECT DISTINCT ville FROM ecoles WHERE statut = 'valide' AND ville IS NOT NULL AND ville != ''");
         $villes = $villesStmt->fetchAll(PDO::FETCH_COLUMN);
+
+        // Formations à la une : celles des écoles premium sont priorisées
+        $formationsStmt = $pdo->query("
+            SELECT f.*, e.nom AS ecole_nom, e.slug AS ecole_slug, e.plan AS ecole_plan
+            FROM filieres f
+            JOIN ecoles e ON e.id = f.ecole_id
+            WHERE e.statut = 'valide'
+            ORDER BY (e.plan = 'premium') DESC, f.id DESC
+            LIMIT 8
+        ");
+        $formationsAlaUne = $formationsStmt->fetchAll();
+
         // On inclut la page d'accueil
         include 'pages/index.php';
 
+        break;
+
+    case 'formations':
+        include 'processing/req_formations.php';
+        include 'pages/formations.php';
+        break;
+
+    case 'formation':
+        include 'processing/req_formation.php';
+        include 'pages/formation.php';
         break;
 
     case 'recherche':

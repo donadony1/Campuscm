@@ -26,6 +26,7 @@
       <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
         <li class="nav-item"><a class="nav-link" href="home">Accueil</a></li>
         <li class="nav-item"><a class="nav-link" href="recherche">Trouver une école</a></li>
+        <li class="nav-item"><a class="nav-link" href="formations">Formations</a></li>
         <?php if (is_logged_in()): ?>
           <?php if (current_user()['role'] === 'super_admin'): ?>
             <li class="nav-item"><a class="nav-link" href="superadmin/dashboard.php">Back-office</a></li>

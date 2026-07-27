@@ -83,8 +83,12 @@ function install_sqlite_schema(PDO $pdo): void
         duree TEXT,
         prix TEXT,
         description TEXT,
+        image TEXT,
         FOREIGN KEY (ecole_id) REFERENCES ecoles(id) ON DELETE CASCADE
     )");
+
+    // Migration douce pour les bases déjà créées avant l'ajout de l'image
+    try { $pdo->exec("ALTER TABLE filieres ADD COLUMN image TEXT"); } catch (Exception $e) {}
 
     $pdo->exec("CREATE TABLE IF NOT EXISTS medias (
         id INTEGER PRIMARY KEY AUTOINCREMENT,

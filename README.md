@@ -38,6 +38,30 @@ créés automatiquement au premier chargement.
 - ⚠️ à changer immédiatement en production (directement en base, colonne
   `mot_de_passe`, avec un hash généré par `password_hash()`).
 
+## Formations : mise en avant et page dédiée
+
+- **Bloc "Formations à la une"** sur la page d'accueil : les formations des
+  écoles au plan **Premium** sont toujours affichées en premier
+  (`ORDER BY (e.plan = 'premium') DESC`), puis les plus récentes.
+- **Page `/formations`** : liste complète et filtrable (mot-clé, ville,
+  domaine) de toutes les formations publiées, avec badge "École vérifiée"
+  sur celles des écoles Premium et priorité de tri identique.
+- **Page détail `/formation?id=X`** : image, description complète, infos
+  pratiques (niveau/durée/prix), autres formations de la même école, et un
+  bouton **"Je suis intéressé(e)"** qui ouvre un formulaire (nom, téléphone,
+  message facultatif) puis redirige vers WhatsApp avec un message
+  pré-rempli, en utilisant le numéro de contact de l'établissement.
+- **Image par formation** : chaque filière peut avoir sa propre photo
+  (upload dans le dashboard admin, conservée automatiquement si non
+  remplacée lors d'une modification, supprimée du disque à la suppression
+  de la filière). Affichée sur l'accueil, la liste des formations, la page
+  détail, et la vitrine de l'école (desktop + mobile).
+
+Testé de bout en bout : upload d'image, priorité premium dans l'ordre
+d'affichage (accueil et liste), conservation de l'image lors d'une
+modification sans nouveau fichier, nettoyage du fichier à la suppression,
+génération correcte du lien WhatsApp (numéro nettoyé des espaces/+).
+
 ## Déploiement en production (hébergement mutualisé / cPanel)
 
 1. **Uploadez tout le contenu de ce dossier** à la racine de votre

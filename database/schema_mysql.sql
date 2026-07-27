@@ -47,6 +47,7 @@ CREATE TABLE IF NOT EXISTS filieres (
   duree VARCHAR(120),
   prix VARCHAR(120),
   description TEXT,
+  image VARCHAR(255),
   FOREIGN KEY (ecole_id) REFERENCES ecoles(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -106,5 +107,5 @@ SET FOREIGN_KEY_CHECKS = 1;
 -- Compte super-admin par défaut : admin@campuscm.cm / admin123
 -- (hash généré avec password_hash('admin123', PASSWORD_DEFAULT))
 INSERT INTO utilisateurs (ecole_id, nom, email, mot_de_passe, role)
-VALUES (NULL, 'Super Admin', 'campuscm237@gmail.com', '$2y$10$7Q2u111LOfNbpw/wUetUMOEl1chKzw9oTU4Rc5/fNPuoByFcMHHXK', 'super_admin');
+VALUES (NULL, 'Super Admin', 'admin@campuscm.cm', '$2y$10$7Q2u111LOfNbpw/wUetUMOEl1chKzw9oTU4Rc5/fNPuoByFcMHHXK', 'super_admin');
 -- ⚠️ CHANGEZ CE MOT DE PASSE IMMÉDIATEMENT APRÈS LE PREMIER DÉPLOIEMENT.

@@ -57,6 +57,30 @@ body {
   padding: .55rem .9rem;
 }
 
+/* Sidebar : pleine hauteur uniquement en desktop (md+). En mobile, elle
+   fonctionne comme un menu déroulant (Bootstrap Collapse) au-dessus du
+   contenu, donc elle ne doit pas forcer toute la hauteur de l'écran. */
+@media (min-width: 768px) {
+  .sidebar {
+    min-height: calc(100vh - 56px);
+  }
+}
+@media (max-width: 767.98px) {
+  .sidebar.show,
+  .sidebar.collapsing {
+    box-shadow: 0 .5rem 1rem rgba(0,0,0,.15);
+  }
+}
+
+.filiere-card-mobile {
+  background-color: #f8f9fa;
+}
+
+/* Légère mise en avant visuelle des formations d'écoles Premium */
+.formation-premium {
+  border: 1px solid #ffe69c !important;
+}
+
 .upload-preview {
   width: 100%;
   max-height: 180px;

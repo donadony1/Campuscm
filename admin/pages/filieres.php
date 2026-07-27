@@ -18,10 +18,14 @@ require_once '../includes/admin-header.php';
     <?php else: ?>
       <div class="table-responsive">
         <table class="table table-hover align-middle">
-          <thead><tr><th>Nom</th><th>Niveau</th><th>Durée</th><th>Prix</th><th></th></tr></thead>
+          <thead><tr><th></th><th>Nom</th><th>Niveau</th><th>Durée</th><th>Prix</th><th></th></tr></thead>
           <tbody>
           <?php foreach ($filieres as $f): ?>
             <tr>
+              <td style="width:60px;">
+                <img src="<?= $f['image'] ? '../' . UPLOAD_URL_FORMATIONS . e($f['image']) : 'https://placehold.co/60x60?text=+' ?>"
+                     class="rounded" style="width:50px;height:50px;object-fit:cover;" alt="">
+              </td>
               <td class="fw-semibold"><?= e($f['nom']) ?></td>
               <td><?= e($f['niveau']) ?></td>
               <td><?= e($f['duree']) ?></td>
@@ -48,7 +52,7 @@ require_once '../includes/admin-header.php';
 <div class="modal fade" id="modalFiliere" tabindex="-1">
   <div class="modal-dialog">
     <div class="modal-content">
-      <form method="post">
+      <form method="post" enctype="multipart/form-data">
         <input type="hidden" name="csrf_token" value="<?= e(csrf_token()) ?>">
         <input type="hidden" name="filiere_id" id="filiere_id" value="">
         <div class="modal-header">
@@ -56,6 +60,12 @@ require_once '../includes/admin-header.php';
           <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
         </div>
         <div class="modal-body">
+          <div class="mb-3 text-center">
+            <img id="f_image_preview" src="" class="rounded d-none mb-2" style="width:100px;height:100px;object-fit:cover;">
+            <label class="form-label d-block">Photo de la formation</label>
+            <input type="file" name="image" class="form-control" accept="image/*" data-preview="#f_image_preview">
+            <div class="form-text">Laissez vide pour conserver l'image actuelle lors d'une modification.</div>
+          </div>
           <div class="mb-3">
             <label class="form-label">Nom de la filière *</label>
             <input type="text" name="nom" id="f_nom" class="form-control" required>
@@ -97,6 +107,8 @@ function resetForm() {
   document.getElementById('f_duree').value = '';
   document.getElementById('f_prix').value = '';
   document.getElementById('f_description').value = '';
+  document.getElementById('f_image_preview').classList.add('d-none');
+  document.getElementById('f_image_preview').src = '';
 }
 function editFiliere(f) {
   document.getElementById('modalTitle').textContent = 'Modifier la filière';
@@ -106,6 +118,16 @@ function editFiliere(f) {
   document.getElementById('f_duree').value = f.duree || '';
   document.getElementById('f_prix').value = f.prix || '';
   document.getElementById('f_description').value = f.description || '';
+
+  const preview = document.getElementById('f_image_preview');
+  if (f.image) {
+    preview.src = '../<?= UPLOAD_URL_FORMATIONS ?>' + f.image;
+    preview.classList.remove('d-none');
+  } else {
+    preview.classList.add('d-none');
+    preview.src = '';
+  }
+
   new bootstrap.Modal(document.getElementById('modalFiliere')).show();
 }
 </script>

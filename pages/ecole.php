@@ -50,14 +50,19 @@ require_once  'includes/header.php';
             <!-- Version bureau : tableau classique (masqué en dessous de md) -->
             <div class="table-responsive d-none d-md-block">
               <table class="table table-hover align-middle">
-                <thead><tr><th>Filière</th><th>Niveau</th><th>Durée</th><th>Prix</th></tr></thead>
+                <thead><tr><th></th><th>Filière</th><th>Niveau</th><th>Durée</th><th>Prix</th><th></th></tr></thead>
                 <tbody>
                 <?php foreach ($filieres as $f): ?>
                   <tr>
+                    <td style="width:60px;">
+                      <img src="<?= $f['image'] ? UPLOAD_URL_FORMATIONS . e($f['image']) : 'https://placehold.co/60x60?text=+' ?>"
+                           class="rounded" style="width:50px;height:50px;object-fit:cover;" alt="">
+                    </td>
                     <td class="fw-semibold"><?= e($f['nom']) ?><?php if($f['description']): ?><br><small class="text-muted"><?= e($f['description']) ?></small><?php endif; ?></td>
                     <td><?= e($f['niveau']) ?></td>
                     <td><?= e($f['duree']) ?></td>
                     <td><?= e($f['prix']) ?></td>
+                    <td><a href="formation?id=<?= $f['id'] ?>" class="btn btn-sm btn-outline-primary">Voir</a></td>
                   </tr>
                 <?php endforeach; ?>
                 </tbody>
@@ -68,21 +73,28 @@ require_once  'includes/header.php';
             <div class="d-md-none">
               <?php foreach ($filieres as $f): ?>
                 <div class="border rounded p-3 mb-2 filiere-card-mobile">
-                  <div class="fw-semibold mb-1"><?= e($f['nom']) ?></div>
-                  <?php if ($f['description']): ?>
-                    <div class="text-muted small mb-2"><?= e($f['description']) ?></div>
-                  <?php endif; ?>
-                  <div class="d-flex flex-wrap gap-3 small">
-                    <?php if ($f['niveau']): ?>
-                      <span><i class="bi bi-mortarboard text-primary"></i> <?= e($f['niveau']) ?></span>
-                    <?php endif; ?>
-                    <?php if ($f['duree']): ?>
-                      <span><i class="bi bi-clock text-primary"></i> <?= e($f['duree']) ?></span>
-                    <?php endif; ?>
-                    <?php if ($f['prix']): ?>
-                      <span><i class="bi bi-cash-coin text-primary"></i> <?= e($f['prix']) ?></span>
-                    <?php endif; ?>
+                  <div class="d-flex gap-3">
+                    <img src="<?= $f['image'] ? UPLOAD_URL_FORMATIONS . e($f['image']) : 'https://placehold.co/70x70?text=+' ?>"
+                         class="rounded flex-shrink-0" style="width:60px;height:60px;object-fit:cover;" alt="">
+                    <div class="flex-grow-1">
+                      <div class="fw-semibold mb-1"><?= e($f['nom']) ?></div>
+                      <?php if ($f['description']): ?>
+                        <div class="text-muted small mb-2"><?= e($f['description']) ?></div>
+                      <?php endif; ?>
+                      <div class="d-flex flex-wrap gap-3 small">
+                        <?php if ($f['niveau']): ?>
+                          <span><i class="bi bi-mortarboard text-primary"></i> <?= e($f['niveau']) ?></span>
+                        <?php endif; ?>
+                        <?php if ($f['duree']): ?>
+                          <span><i class="bi bi-clock text-primary"></i> <?= e($f['duree']) ?></span>
+                        <?php endif; ?>
+                        <?php if ($f['prix']): ?>
+                          <span><i class="bi bi-cash-coin text-primary"></i> <?= e($f['prix']) ?></span>
+                        <?php endif; ?>
+                      </div>
+                    </div>
                   </div>
+                  <a href="formation?id=<?= $f['id'] ?>" class="btn btn-outline-primary btn-sm w-100 mt-2">Voir la formation</a>
                 </div>
               <?php endforeach; ?>
             </div>

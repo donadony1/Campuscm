@@ -33,10 +33,12 @@ define('APP_URL', 'http://localhost:8000'); // à changer en production (ex: htt
 define('UPLOAD_DIR_LOGOS', __DIR__ . '/../assets/uploads/logos/');
 define('UPLOAD_DIR_COVERS', __DIR__ . '/../assets/uploads/covers/');
 define('UPLOAD_DIR_PHOTOS', __DIR__ . '/../assets/uploads/photos/');
+define('UPLOAD_DIR_FORMATIONS', __DIR__ . '/../assets/uploads/formations/');
 
 define('UPLOAD_URL_LOGOS', 'assets/uploads/logos/');
 define('UPLOAD_URL_COVERS', 'assets/uploads/covers/');
 define('UPLOAD_URL_PHOTOS', 'assets/uploads/photos/');
+define('UPLOAD_URL_FORMATIONS', 'assets/uploads/formations/');
 
 define('MAX_UPLOAD_SIZE', 3 * 1024 * 1024); // 3 Mo
 define('ALLOWED_IMAGE_TYPES', ['image/jpeg', 'image/png', 'image/webp']);
