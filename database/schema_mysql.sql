@@ -48,6 +48,7 @@ CREATE TABLE IF NOT EXISTS filieres (
   prix VARCHAR(120),
   description TEXT,
   image VARCHAR(255),
+  vues INT NOT NULL DEFAULT 0,
   FOREIGN KEY (ecole_id) REFERENCES ecoles(id) ON DELETE CASCADE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 

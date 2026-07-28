@@ -87,3 +87,45 @@ body {
   object-fit: cover;
   border-radius: .375rem;
 }
+
+/* Menu mobile façon application : barre de navigation fixe en bas de
+   l'écran, visible uniquement sur mobile (d-md-none appliqué en HTML). */
+.app-bottom-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  z-index: 1030;
+  display: flex;
+  background-color: #fff;
+  border-top: 1px solid #e5e5e5;
+  box-shadow: 0 -.25rem .75rem rgba(0,0,0,.08);
+  padding-bottom: env(safe-area-inset-bottom, 0);
+}
+.app-bottom-nav-item {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2px;
+  padding: .5rem 0;
+  color: #6c757d;
+  text-decoration: none;
+  font-size: .68rem;
+}
+.app-bottom-nav-item i {
+  font-size: 1.25rem;
+}
+.app-bottom-nav-item.active {
+  color: #0d6efd;
+  font-weight: 600;
+}
+
+/* Dégagement pour que le contenu (dont le footer) ne soit jamais caché
+   derrière la barre de navigation mobile fixe. */
+@media (max-width: 767.98px) {
+  body {
+    padding-bottom: 64px;
+  }
+}

@@ -22,6 +22,7 @@ require_once  'includes/header.php';
           <?php if ($ecole['plan'] === 'premium'): ?>
             <span class="badge bg-warning text-dark"><i class="bi bi-patch-check-fill"></i> Vérifié</span>
           <?php endif; ?>
+          <span class="badge bg-light text-dark border"><i class="bi bi-eye"></i> <?= (int)$ecole['vues'] ?> vue<?= (int)$ecole['vues'] > 1 ? 's' : '' ?></span>
           <?php if (count($avis)): ?>
             <span class="ms-2"><?= render_stars($noteMoyenne) ?> <small class="text-muted">(<?= count($avis) ?> avis)</small></span>
           <?php endif; ?>

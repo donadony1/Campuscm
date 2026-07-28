@@ -38,6 +38,26 @@ créés automatiquement au premier chargement.
 - ⚠️ à changer immédiatement en production (directement en base, colonne
   `mot_de_passe`, avec un hash généré par `password_hash()`).
 
+## Compteurs de vues et menu mobile façon application
+
+- **Compteur de vues par formation** : chaque visite de `/formation?id=X`
+  incrémente `filieres.vues`, affiché sur la carte de formation partagée
+  (`includes/formation-card.php`) et sur la page détail, à côté du prix.
+- **Compteur de vues par école** : déjà suivi (`ecoles.vues`), désormais
+  aussi **affiché publiquement** — sur la vitrine de l'école et sur chaque
+  carte école (accueil, recherche), via le composant partagé
+  `includes/school-card.php`.
+- **Menu mobile façon application** : sur les écrans < 768px, une barre de
+  navigation fixe apparaît en bas de l'écran (Accueil, Écoles, Formations,
+  Connexion/Mon compte selon l'état de connexion), avec icônes Bootstrap
+  Icons et mise en évidence de l'onglet actif. Invisible en desktop.
+
+Testé de bout en bout : incrémentation correcte des deux compteurs sur
+plusieurs visites successives, affichage immédiatement à jour (sans
+décalage), onglet actif correct selon la page visitée, lien "Mon compte"
+pointant vers le bon dashboard (admin école vs super-admin) selon le rôle
+connecté.
+
 ## Formations : mise en avant et page dédiée
 
 - **Bloc "Formations à la une"** sur la page d'accueil : les formations des

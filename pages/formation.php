@@ -33,6 +33,7 @@ $telephoneEcole = preg_replace('/\D/', '', $formation['ecole_telephone'] ?? '');
             <?php if ($formation['niveau']): ?><span class="badge bg-primary-subtle text-primary"><i class="bi bi-mortarboard"></i> <?= e($formation['niveau']) ?></span><?php endif; ?>
             <?php if ($formation['duree']): ?><span class="badge bg-light text-dark border"><i class="bi bi-clock"></i> <?= e($formation['duree']) ?></span><?php endif; ?>
             <?php if ($formation['prix']): ?><span class="badge bg-light text-dark border"><i class="bi bi-cash-coin"></i> <?= e($formation['prix']) ?></span><?php endif; ?>
+            <span class="badge bg-light text-dark border"><i class="bi bi-eye"></i> <?= (int)$formation['vues'] ?> vue<?= (int)$formation['vues'] > 1 ? 's' : '' ?></span>
           </div>
 
           <h5 class="fw-bold mt-4">Description</h5>

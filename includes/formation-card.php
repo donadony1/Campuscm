@@ -1,6 +1,6 @@
 <div class="col-6 col-md-4 col-lg-3">
   <div class="card h-100 shadow-sm school-card <?= $f['ecole_plan'] === 'premium' ? 'formation-premium' : '' ?>">
-    <a href="formation?id=<?= $f['id'] ?>" >
+    <a href="formation?id=<?= $f['id'] ?>">
       <img src="<?= $f['image'] ? UPLOAD_URL_FORMATIONS . e($f['image']) : 'https://placehold.co/300x160?text=' . urlencode($f['nom']) ?>"
            class="card-img-top" style="height:130px;object-fit:cover;" alt="<?= e($f['nom']) ?>">
     </a>
@@ -12,9 +12,17 @@
       <?php if (!empty($f['ecole_nom'])): ?>
         <p class="text-muted small mb-2"><i class="bi bi-building"></i> <?= e($f['ecole_nom']) ?></p>
       <?php endif; ?>
-      <div class="d-flex flex-wrap gap-1">
+      <div class="d-flex flex-wrap gap-1 mb-2">
         <?php if ($f['niveau']): ?><span class="badge bg-primary-subtle text-primary small"><?= e($f['niveau']) ?></span><?php endif; ?>
         <?php if ($f['duree']): ?><span class="badge bg-light text-dark border small"><?= e($f['duree']) ?></span><?php endif; ?>
+      </div>
+      <div class="d-flex justify-content-between align-items-center">
+        <?php if (!empty($f['prix'])): ?>
+          <span class="fw-semibold text-primary small"><?= e($f['prix']) ?></span>
+        <?php else: ?>
+          <span></span>
+        <?php endif; ?>
+        <span class="text-muted small"><i class="bi bi-eye"></i> <?= (int)($f['vues'] ?? 0) ?></span>
       </div>
     </div>
     <div class="card-footer bg-white border-0 p-2">

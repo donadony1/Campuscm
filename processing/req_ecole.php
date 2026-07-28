@@ -20,6 +20,7 @@ if (!$ecole) {
 
 // Incrémente le compteur de vues (best-effort)
 $pdo->prepare("UPDATE ecoles SET vues = vues + 1 WHERE id = ?")->execute([$ecole['id']]);
+$ecole['vues'] = (int)$ecole['vues'] + 1;
 
 $pageTitle = $ecole['nom'];
 

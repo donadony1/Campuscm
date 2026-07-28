@@ -20,6 +20,11 @@ if (!$formation) {
     exit;
 }
 
+// Incrémente le compteur de vues (best-effort) et met à jour la valeur en
+// mémoire pour que le nombre affiché sur cette page soit déjà à jour.
+$pdo->prepare('UPDATE filieres SET vues = vues + 1 WHERE id = ?')->execute([$formation['id']]);
+$formation['vues'] = (int)$formation['vues'] + 1;
+
 // Autres formations de la même école (suggestions)
 $autresStmt = $pdo->prepare("SELECT * FROM filieres WHERE ecole_id = ? AND id != ? ORDER BY nom LIMIT 4");
 $autresStmt->execute([$formation['ecole_id'], $formation['id']]);
