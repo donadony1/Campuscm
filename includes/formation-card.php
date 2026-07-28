@@ -1,6 +1,7 @@
+<?php var_dump($f['image'] ) ?>
 <div class="col-6 col-md-4 col-lg-3">
   <div class="card h-100 shadow-sm school-card <?= $f['ecole_plan'] === 'premium' ? 'formation-premium' : '' ?>">
-    <a href="formation?id=<?= $f['id'] ?>">
+    <a href="formation?id=<?= $f['id'] ?>" >
       <img src="<?= $f['image'] ? UPLOAD_URL_FORMATIONS . e($f['image']) : 'https://placehold.co/300x160?text=' . urlencode($f['nom']) ?>"
            class="card-img-top" style="height:130px;object-fit:cover;" alt="<?= e($f['nom']) ?>">
     </a>
