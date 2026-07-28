@@ -46,59 +46,11 @@ require_once  'includes/header.php';
           <?php if (empty($filieres)): ?>
             <p class="text-muted">Aucune filière renseignée pour le moment.</p>
           <?php else: ?>
-
-            <!-- Version bureau : tableau classique (masqué en dessous de md) -->
-            <div class="table-responsive d-none d-md-block">
-              <table class="table table-hover align-middle">
-                <thead><tr><th></th><th>Filière</th><th>Niveau</th><th>Durée</th><th>Prix</th><th></th></tr></thead>
-                <tbody>
-                <?php foreach ($filieres as $f): ?>
-                  <tr>
-                    <td style="width:60px;">
-                      <img src="<?= $f['image'] ? UPLOAD_URL_FORMATIONS . e($f['image']) : 'https://placehold.co/60x60?text=+' ?>"
-                           class="rounded" style="width:50px;height:50px;object-fit:cover;" alt="">
-                    </td>
-                    <td class="fw-semibold"><?= e($f['nom']) ?><?php if($f['description']): ?><br><small class="text-muted"><?= e($f['description']) ?></small><?php endif; ?></td>
-                    <td><?= e($f['niveau']) ?></td>
-                    <td><?= e($f['duree']) ?></td>
-                    <td><?= e($f['prix']) ?></td>
-                    <td><a href="formation?id=<?= $f['id'] ?>" class="btn btn-sm btn-outline-primary">Voir</a></td>
-                  </tr>
-                <?php endforeach; ?>
-                </tbody>
-              </table>
-            </div>
-
-            <!-- Version mobile : cartes empilées, plus lisibles qu'un tableau étroit (visible en dessous de md) -->
-            <div class="d-md-none">
+            <div class="row g-3">
               <?php foreach ($filieres as $f): ?>
-                <div class="border rounded p-3 mb-2 filiere-card-mobile">
-                  <div class="d-flex gap-3">
-                    <img src="<?= $f['image'] ? UPLOAD_URL_FORMATIONS . e($f['image']) : 'https://placehold.co/70x70?text=+' ?>"
-                         class="rounded flex-shrink-0" style="width:60px;height:60px;object-fit:cover;" alt="">
-                    <div class="flex-grow-1">
-                      <div class="fw-semibold mb-1"><?= e($f['nom']) ?></div>
-                      <?php if ($f['description']): ?>
-                        <div class="text-muted small mb-2"><?= e($f['description']) ?></div>
-                      <?php endif; ?>
-                      <div class="d-flex flex-wrap gap-3 small">
-                        <?php if ($f['niveau']): ?>
-                          <span><i class="bi bi-mortarboard text-primary"></i> <?= e($f['niveau']) ?></span>
-                        <?php endif; ?>
-                        <?php if ($f['duree']): ?>
-                          <span><i class="bi bi-clock text-primary"></i> <?= e($f['duree']) ?></span>
-                        <?php endif; ?>
-                        <?php if ($f['prix']): ?>
-                          <span><i class="bi bi-cash-coin text-primary"></i> <?= e($f['prix']) ?></span>
-                        <?php endif; ?>
-                      </div>
-                    </div>
-                  </div>
-                  <a href="formation?id=<?= $f['id'] ?>" class="btn btn-outline-primary btn-sm w-100 mt-2">Voir la formation</a>
-                </div>
+                <?php include 'includes/formation-card.php'; ?>
               <?php endforeach; ?>
             </div>
-
           <?php endif; ?>
         </div>
       </div>
@@ -183,6 +135,20 @@ require_once  'includes/header.php';
       </div>
     </div>
   </div>
+
+  <?php if (!empty($formationsSuggerees)): ?>
+  <div class="mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h4 class="fw-bold mb-0">Découvrez d'autres formations</h4>
+      <a href="formations" class="btn btn-outline-primary btn-sm">Voir toutes les formations <i class="bi bi-arrow-right"></i></a>
+    </div>
+    <div class="row g-3">
+      <?php foreach ($formationsSuggerees as $f): ?>
+        <?php include 'includes/formation-card.php'; ?>
+      <?php endforeach; ?>
+    </div>
+  </div>
+  <?php endif; ?>
 </div>
 
 

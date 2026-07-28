@@ -24,3 +24,6 @@ if (!$formation) {
 $autresStmt = $pdo->prepare("SELECT * FROM filieres WHERE ecole_id = ? AND id != ? ORDER BY nom LIMIT 4");
 $autresStmt->execute([$formation['ecole_id'], $formation['id']]);
 $autresFormations = $autresStmt->fetchAll();
+
+// Suggestions aléatoires (autres écoles), en priorisant toujours le Premium
+$formationsSuggerees = get_formations_suggerees($pdo, (int)$formation['id'], (int)$formation['ecole_id'], 4);

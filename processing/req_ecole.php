@@ -26,6 +26,15 @@ $pageTitle = $ecole['nom'];
 $filieres = $pdo->prepare("SELECT * FROM filieres WHERE ecole_id = ? ORDER BY nom");
 $filieres->execute([$ecole['id']]);
 $filieres = $filieres->fetchAll();
+// On complète chaque formation avec le plan de l'école (pour un affichage
+// de carte identique à celui de la page /formations, badge Premium inclus).
+foreach ($filieres as &$__f) {
+    $__f['ecole_plan'] = $ecole['plan'];
+}
+unset($__f);
+
+// Suggestions aléatoires (autres écoles), en priorisant toujours le Premium
+$formationsSuggerees = get_formations_suggerees($pdo, 0, (int)$ecole['id'], 4);
 
 $photos = $pdo->prepare("SELECT * FROM medias WHERE ecole_id = ? ORDER BY date_ajout DESC");
 $photos->execute([$ecole['id']]);

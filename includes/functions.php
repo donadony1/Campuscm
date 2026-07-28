@@ -178,6 +178,40 @@ function activer_premium_ecole(PDO $pdo, int $ecoleId, string $reference): void
     $pdo->prepare("UPDATE ecoles SET plan = 'premium', premium_jusqu_au = ? WHERE id = ?")->execute([$nouvelleDate, $ecoleId]);
 }
 
+/**
+ * Retourne des formations suggérées de façon aléatoire, en priorisant
+ * toujours celles des écoles au plan Premium (affichées en premier, puis
+ * mélangées aléatoirement entre elles ; les autres suivent, également
+ * mélangées). Écrit de façon portable SQLite (RANDOM()) / MySQL (RAND()).
+ */
+function get_formations_suggerees(PDO $pdo, int $excludeFormationId = 0, int $excludeEcoleId = 0, int $limit = 4): array
+{
+    $randomFunc = DB_DRIVER === 'sqlite' ? 'RANDOM()' : 'RAND()';
+
+    $sql = "
+        SELECT f.*, e.nom AS ecole_nom, e.slug AS ecole_slug, e.plan AS ecole_plan
+        FROM filieres f
+        JOIN ecoles e ON e.id = f.ecole_id
+        WHERE e.statut = 'valide'
+    ";
+    $params = [];
+
+    if ($excludeFormationId > 0) {
+        $sql .= " AND f.id != ?";
+        $params[] = $excludeFormationId;
+    }
+    if ($excludeEcoleId > 0) {
+        $sql .= " AND f.ecole_id != ?";
+        $params[] = $excludeEcoleId;
+    }
+
+    $sql .= " ORDER BY (e.plan = 'premium') DESC, $randomFunc LIMIT " . (int)$limit;
+
+    $stmt = $pdo->prepare($sql);
+    $stmt->execute($params);
+    return $stmt->fetchAll();
+}
+
 /** Formate une note moyenne d'avis en étoiles Bootstrap Icons */
 function render_stars(float $note): string
 {

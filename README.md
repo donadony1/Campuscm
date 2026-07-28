@@ -51,16 +51,29 @@ créés automatiquement au premier chargement.
   bouton **"Je suis intéressé(e)"** qui ouvre un formulaire (nom, téléphone,
   message facultatif) puis redirige vers WhatsApp avec un message
   pré-rempli, en utilisant le numéro de contact de l'établissement.
+- **Vitrine d'une école** : ses formations sont affichées avec la même
+  grille de cartes responsive que la page `/formations` (composant partagé
+  `includes/formation-card.php`), garantissant un rendu identique et
+  adapté au mobile partout sur le site.
+- **Suggestions aléatoires** : la page détail d'une formation et la vitrine
+  de chaque école affichent une section "Découvrez d'autres formations" /
+  "Ça pourrait aussi vous intéresser" — des formations tirées au hasard
+  parmi les autres écoles, mais toujours avec les formations des écoles
+  **Premium en priorité** (mélangées aléatoirement entre elles, puis les
+  autres). Fonction `get_formations_suggerees()`, écrite de façon portable
+  SQLite (`RANDOM()`) / MySQL (`RAND()`).
 - **Image par formation** : chaque filière peut avoir sa propre photo
   (upload dans le dashboard admin, conservée automatiquement si non
   remplacée lors d'une modification, supprimée du disque à la suppression
-  de la filière). Affichée sur l'accueil, la liste des formations, la page
-  détail, et la vitrine de l'école (desktop + mobile).
+  de la filière). Testé avec les formats JPG, PNG et WebP : sauvegarde,
+  détection MIME et affichage tous confirmés fonctionnels.
 
-Testé de bout en bout : upload d'image, priorité premium dans l'ordre
-d'affichage (accueil et liste), conservation de l'image lors d'une
-modification sans nouveau fichier, nettoyage du fichier à la suppression,
-génération correcte du lien WhatsApp (numéro nettoyé des espaces/+).
+Testé de bout en bout : upload d'image (3 formats), priorité premium dans
+l'ordre d'affichage (accueil, liste, suggestions), ordre réellement
+aléatoire au sein d'un même groupe (premium/gratuit) à chaque rechargement,
+conservation de l'image lors d'une modification sans nouveau fichier,
+nettoyage du fichier à la suppression, génération correcte du lien
+WhatsApp (numéro nettoyé des espaces/+).
 
 ## Déploiement en production (hébergement mutualisé / cPanel)
 

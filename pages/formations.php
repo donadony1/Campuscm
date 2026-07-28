@@ -38,30 +38,7 @@ require_once 'includes/header.php';
       <p class="text-muted">Aucune formation ne correspond à votre recherche.</p>
     <?php endif; ?>
     <?php foreach ($formations as $f): ?>
-      <div class="col-md-4 col-lg-3">
-        <div class="card h-100 shadow-sm school-card <?= $f['ecole_plan'] === 'premium' ? 'formation-premium' : '' ?>">
-          <a href="formation?id=<?= $f['id'] ?>">
-            <img src="<?= $f['image'] ? UPLOAD_URL_FORMATIONS . e($f['image']) : 'https://placehold.co/400x220?text=' . urlencode($f['nom']) ?>"
-                 class="card-img-top" style="height:150px;object-fit:cover;" alt="<?= e($f['nom']) ?>">
-          </a>
-          <div class="card-body">
-            <?php if ($f['ecole_plan'] === 'premium'): ?>
-              <span class="badge bg-warning text-dark mb-2"><i class="bi bi-patch-check-fill"></i> École vérifiée</span>
-            <?php endif; ?>
-            <h6 class="card-title fw-bold mb-1"><?= e($f['nom']) ?></h6>
-            <p class="text-muted small mb-2">
-              <i class="bi bi-building"></i> <a href="ecole?slug=<?= e($f['ecole_slug']) ?>" class="text-decoration-none text-muted"><?= e($f['ecole_nom']) ?></a>
-            </p>
-            <p class="small mb-0">
-              <?php if ($f['niveau']): ?><span class="badge bg-primary-subtle text-primary"><?= e($f['niveau']) ?></span><?php endif; ?>
-              <?php if ($f['duree']): ?><span class="badge bg-light text-dark border"><?= e($f['duree']) ?></span><?php endif; ?>
-            </p>
-          </div>
-          <div class="card-footer bg-white border-0">
-            <a href="formation?id=<?= $f['id'] ?>" class="btn btn-outline-primary btn-sm w-100">Voir la formation</a>
-          </div>
-        </div>
-      </div>
+      <?php include 'includes/formation-card.php'; ?>
     <?php endforeach; ?>
   </div>
 </div>

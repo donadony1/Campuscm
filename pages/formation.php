@@ -76,6 +76,20 @@ $telephoneEcole = preg_replace('/\D/', '', $formation['ecole_telephone'] ?? '');
       </div>
     </div>
   </div>
+
+  <?php if (!empty($formationsSuggerees)): ?>
+  <div class="mt-5">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+      <h4 class="fw-bold mb-0">Ça pourrait aussi vous intéresser</h4>
+      <a href="formations" class="btn btn-outline-primary btn-sm">Voir toutes les formations <i class="bi bi-arrow-right"></i></a>
+    </div>
+    <div class="row g-3">
+      <?php foreach ($formationsSuggerees as $f): ?>
+        <?php include 'includes/formation-card.php'; ?>
+      <?php endforeach; ?>
+    </div>
+  </div>
+  <?php endif; ?>
 </div>
 
 <!-- Modal formulaire de contact -->
