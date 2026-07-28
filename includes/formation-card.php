@@ -1,4 +1,3 @@
-<?php var_dump($f ) ?>
 <div class="col-6 col-md-4 col-lg-3">
   <div class="card h-100 shadow-sm school-card <?= $f['ecole_plan'] === 'premium' ? 'formation-premium' : '' ?>">
     <a href="formation?id=<?= $f['id'] ?>" >
